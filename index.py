@@ -19,7 +19,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-  if not message.content.startsWith(config['prefix']) and message.author == client.user: 
+  if not message.content.startswith(config['prefix']) and message.author == client.user: 
     return
 
   args = message.content[len(config['prefix']):].strip().split(" ")

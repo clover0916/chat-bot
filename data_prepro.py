@@ -9,7 +9,7 @@ def wakati(input_str):
         引数 input_str : 入力テキスト
         返値 m.parse(wakatext) : 分かち済みテキスト'''
         wakatext = input_str
-        m = MeCab.Tagger('-Owakati')
+        m = MeCab.Tagger('-Owakati -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
         #print(m.parse(wakatext))
         return m.parse(wakatext)
 

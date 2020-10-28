@@ -9,7 +9,7 @@ config = json.load(json_open)
 async def mecab(message, args):
   data = ' '.join(args)
   mecab = MeCab.Tagger('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd').parse(data)
-  await message.channel.send(mecab)
+  await message.channel.send('```' + mecab + '```')
 
 @client.event
 async def on_ready():

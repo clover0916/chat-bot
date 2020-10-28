@@ -89,14 +89,12 @@ def create_model(session, forward_only):
   ckpt = tf.train.get_checkpoint_state(FLAGS.train_dir)
   #if ckpt and gfile.Exists(ckpt.model_checkpoint_path):
     #add
-  if not os.path.isabs(ckpt.model_checkpoint_path):
-    ckpt.model_checkpoint_path= os.path.abspath(os.path.join(os.getcwd(), ckpt.model_checkpoint_path))
-    #so far
-    print("Reading model parameters from %s" % ckpt.model_checkpoint_path)
-    model.saver.restore(session, ckpt.model_checkpoint_path)
+  if ckpt and gfile.Exists(ckpt.model_checkpoint_path):                              
+    print("Reading model parameters from %s" % ckpt.model_checkpoint_path)          
+    model.saver.restore(session, ckpt.model_checkpoint_path)                        
   else:
     print("Created model with fresh parameters.")
-    session.run(tf.initialize_all_variables())
+    session.run(tf.initialize_all_variables())                                      
   return model
 
 def train():
@@ -235,7 +233,7 @@ def wakati(input_str):
   引数 input_str : 入力テキスト
   返値 m.parse(wakatext) : 分かち済みテキスト'''
   wakatext = input_str
-  m = MeCab.Tagger('-Owakati')
+  m = MeCab.Tagger('-Owakati -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
   #print(m.parse(wakatext))
   return m.parse(wakatext)
 

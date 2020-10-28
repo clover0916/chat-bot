@@ -22,7 +22,7 @@ async def on_message(message):
   if not message.content.startsWith(config.prefix) and message.author == client.user: 
     return
 
-  args = message.content[len(config.prefix):].strip().split(/ +/)
+  args = message.content[len(config.prefix):].strip().split(" ")
 
   if message.content.startswith('cm!mecab'):
     await mecab(message, args)

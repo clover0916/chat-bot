@@ -27,4 +27,5 @@ async def on_message(message):
   if message.content.startswith('cm!mecab'):
     await mecab(message, args)
 
+print(config)
 client.run(config.token)

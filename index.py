@@ -10,9 +10,7 @@ async def mecab(message, args):
   data = ' '.join(args)
   mecab = MeCab.Tagger('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd').parse(data)
   lines = mecab.split('\n')
-  items = (re.split('[\t]',line) for line in lines)
-  for item in items:
-    await message.channel.send(item)
+  await message.channel.send(lines)
 
 @client.event
 async def on_ready():

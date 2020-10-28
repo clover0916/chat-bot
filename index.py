@@ -3,7 +3,7 @@ import MeCab
 import json
 
 client = discord.Client()
-json_open = open('config.json', 'r')
+json_open = open('./config.json', 'r')
 config = json.load(json_open)
 
 async def mecab(message, args):

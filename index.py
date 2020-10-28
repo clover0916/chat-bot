@@ -1,17 +1,30 @@
 import discord
+import MeCab
+import json
 
 client = discord.Client()
+json_open = open('config.json', 'r')
+config = json.load(json_open)
+
+async def mecab(message, args):
+  mecab = MeCab.Tagger('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd').parse(args)
+  lines = mecab.split('\n')
+  items = (re.split('[\t]',line) for line in lines)
+  for item in items:
+    await message.channel.send(item)
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+  print('We have logged in as {0.user}'.format(client))
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
-        return
+  if not message.content.startsWith(config.prefix) and message.author == client.user: 
+    return
 
-    if message.content.startswith('cm!hello'):
-        await message.channel.send('Hello!')
+  args = message.content[len(config.prefix):].strip().split(/ +/)
 
-client.run('NzcwNjMxNjEwOTQ5MTczMjg4.X5gYnQ.EnW08GySiuOlYUyHSJeWguRvCBE')
+  if message.content.startswith('cm!mecab'):
+    await mecab(message, args)
+
+client.run(config.token)

@@ -11,6 +11,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import MeCab
+
 import math
 import os
 import random
@@ -27,7 +29,6 @@ import data_utils
 from tensorflow.models.rnn.translate import seq2seq_model
 from tensorflow.python.platform import gfile
 
-
 tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
 tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.99,
                           "Learning rate decays by this much.")
@@ -37,10 +38,10 @@ tf.app.flags.DEFINE_integer("batch_size", 4,
                             "Batch size to use during training.")
 tf.app.flags.DEFINE_integer("size", 256, "Size of each model layer.")
 tf.app.flags.DEFINE_integer("num_layers", 2, "Number of layers in the model.")
-tf.app.flags.DEFINE_integer("in_vocab_size", 500, "input vocabulary size.")
-tf.app.flags.DEFINE_integer("out_vocab_size", 500, "output vocabulary size.")
-tf.app.flags.DEFINE_string("data_dir", "datas", "Data directory")       
-tf.app.flags.DEFINE_string("train_dir", "datas", "Training directory.")
+tf.app.flags.DEFINE_integer("in_vocab_size", 12500, "input vocabulary size.")
+tf.app.flags.DEFINE_integer("out_vocab_size", 12500, "output vocabulary size.")
+tf.app.flags.DEFINE_string("data_dir", "./datas", "Data directory")
+tf.app.flags.DEFINE_string("train_dir", "./datas", "Training directory.")
 tf.app.flags.DEFINE_integer("max_train_data_size", 0,
                             "Limit on the size of training data (0: no limit).")
 tf.app.flags.DEFINE_integer("steps_per_checkpoint", 100,
@@ -85,15 +86,18 @@ def create_model(session, forward_only):
       FLAGS.learning_rate, FLAGS.learning_rate_decay_factor,                       
       forward_only=forward_only)                                                    
 
-  ckpt = tf.train.get_checkpoint_state(FLAGS.train_dir)                             
-  if ckpt and gfile.Exists(ckpt.model_checkpoint_path):                              
-    print("Reading model parameters from %s" % ckpt.model_checkpoint_path)          
-    model.saver.restore(session, ckpt.model_checkpoint_path)                        
+  ckpt = tf.train.get_checkpoint_state(FLAGS.train_dir)
+  #if ckpt and gfile.Exists(ckpt.model_checkpoint_path):
+    #add
+  if not os.path.isabs(ckpt.model_checkpoint_path):
+    ckpt.model_checkpoint_path= os.path.abspath(os.path.join(os.getcwd(), ckpt.model_checkpoint_path))
+    #so far
+    print("Reading model parameters from %s" % ckpt.model_checkpoint_path)
+    model.saver.restore(session, ckpt.model_checkpoint_path)
   else:
     print("Created model with fresh parameters.")
-    session.run(tf.initialize_all_variables())                                      
-  return model                                                                      
-
+    session.run(tf.initialize_all_variables())
+  return model
 
 def train():
 
@@ -168,7 +172,6 @@ def train():
 
 def decode():
   with tf.Session() as sess:
-    print ("Hello!!")
     model = create_model(sess, True)                         
     model.batch_size = 1  
 
@@ -180,12 +183,12 @@ def decode():
     in_vocab, _ = data_utils.initialize_vocabulary(in_vocab_path)        
     _, rev_out_vocab = data_utils.initialize_vocabulary(out_vocab_path)    
 
-
+    print ("Hello!!")
     sys.stdout.write("> ")
     sys.stdout.flush()
     sentence = sys.stdin.readline()    
     while sentence:
-
+      sentence = wakati(sentence)
       token_ids = data_utils.sentence_to_token_ids(sentence, in_vocab)   
 
       bucket_id = min([b for b in xrange(len(_buckets))
@@ -202,8 +205,8 @@ def decode():
       if data_utils.EOS_ID in outputs:
         outputs = outputs[:outputs.index(data_utils.EOS_ID)]                      
 
-      print(" ".join([rev_out_vocab[output] for output in outputs]))
-      print("> ", end="")
+      print("".join([rev_out_vocab[output] for output in outputs]))
+      print("\n> ", end="")
       sys.stdout.flush()
       sentence = sys.stdin.readline()                                             
 
@@ -227,6 +230,14 @@ def self_test():
       model.step(sess, encoder_inputs, decoder_inputs, target_weights,
                  bucket_id, False)
 
+def wakati(input_str):
+  '''分かち書き用関数
+  引数 input_str : 入力テキスト
+  返値 m.parse(wakatext) : 分かち済みテキスト'''
+  wakatext = input_str
+  m = MeCab.Tagger('-Owakati')
+  #print(m.parse(wakatext))
+  return m.parse(wakatext)
 
 def main(_):
   if FLAGS.self_test:

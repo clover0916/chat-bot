@@ -157,7 +157,8 @@ async def on_ready():
 async def on_message(message):
   if not message.content.startswith(config['prefix']) and message.author == client.user:
     return
-  out = decode(message.content)
-  await message.channel.send(out)
+  if message.channel.name == 'clover-chat':
+    out = decode(message.content)
+    await message.channel.send(out)
 
-client.run(config['token'])
+client.run(config['token'], reconnect=True)

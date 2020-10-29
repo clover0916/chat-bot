@@ -47,9 +47,9 @@ class Seq2SeqModel(object):
     
     if num_samples > 0 and num_samples < self.target_vocab_size:     
       with tf.device("/cpu:0"):
-        w = tf.compat.v1.get_variable("proj_w", [size, self.target_vocab_size])            
-        w_t = tf.transpose(a=w)
-        b = tf.compat.v1.get_variable("proj_b", [self.target_vocab_size])
+        w = tf.get_variable("proj_w", [size, self.target_vocab_size])            
+        w_t = tf.transpose(w)
+        b = tf.get_variable("proj_b", [self.target_vocab_size])
       output_projection = (w, b)                                        
 
 
@@ -79,12 +79,12 @@ class Seq2SeqModel(object):
     self.decoder_inputs = []
     self.target_weights = []
     for i in xrange(buckets[-1][0]):  
-      self.encoder_inputs.append(tf.compat.v1.placeholder(tf.int32, shape=[None],
+      self.encoder_inputs.append(tf.placeholder(tf.int32, shape=[None],
                                                 name="encoder{0}".format(i)))
     for i in xrange(buckets[-1][1] + 1):
-      self.decoder_inputs.append(tf.compat.v1.placeholder(tf.int32, shape=[None],
+      self.decoder_inputs.append(tf.placeholder(tf.int32, shape=[None],
                                                 name="decoder{0}".format(i)))
-      self.target_weights.append(tf.compat.v1.placeholder(tf.float32, shape=[None],
+      self.target_weights.append(tf.placeholder(tf.float32, shape=[None],
                                                 name="weight{0}".format(i)))
 
 
@@ -112,20 +112,20 @@ class Seq2SeqModel(object):
           softmax_loss_function=softmax_loss_function)
 
 
-    params = tf.compat.v1.trainable_variables()
+    params = tf.trainable_variables()
     if not forward_only:
       self.gradient_norms = []
       self.updates = []
-      opt = tf.compat.v1.train.GradientDescentOptimizer(self.learning_rate)
+      opt = tf.train.GradientDescentOptimizer(self.learning_rate)
       for b in xrange(len(buckets)):
-        gradients = tf.gradients(ys=self.losses[b], xs=params)
+        gradients = tf.gradients(self.losses[b], params)
         clipped_gradients, norm = tf.clip_by_global_norm(gradients,
                                                          max_gradient_norm)
         self.gradient_norms.append(norm)
         self.updates.append(opt.apply_gradients(
             zip(clipped_gradients, params), global_step=self.global_step))
 
-    self.saver = tf.compat.v1.train.Saver(tf.compat.v1.all_variables())
+    self.saver = tf.train.Saver(tf.all_variables())
 
   def step(self, session, encoder_inputs, decoder_inputs, target_weights,
            bucket_id, forward_only):

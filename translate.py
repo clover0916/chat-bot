@@ -29,29 +29,29 @@ import data_utils
 from tensorflow.models.rnn.translate import seq2seq_model
 from tensorflow.python.platform import gfile
 
-tf.compat.v1.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
-tf.compat.v1.app.flags.DEFINE_float("learning_rate_decay_factor", 0.99,
+tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
+tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.99,
                           "Learning rate decays by this much.")
-tf.compat.v1.app.flags.DEFINE_float("max_gradient_norm", 5.0,
+tf.app.flags.DEFINE_float("max_gradient_norm", 5.0,
                           "Clip gradients to this norm.")
-tf.compat.v1.app.flags.DEFINE_integer("batch_size", 4,
+tf.app.flags.DEFINE_integer("batch_size", 4,
                             "Batch size to use during training.")
-tf.compat.v1.app.flags.DEFINE_integer("size", 256, "Size of each model layer.")
-tf.compat.v1.app.flags.DEFINE_integer("num_layers", 2, "Number of layers in the model.")
-tf.compat.v1.app.flags.DEFINE_integer("in_vocab_size", 500, "input vocabulary size.")
-tf.compat.v1.app.flags.DEFINE_integer("out_vocab_size", 500, "output vocabulary size.")
-tf.compat.v1.app.flags.DEFINE_string("data_dir", "./datas", "Data directory")
-tf.compat.v1.app.flags.DEFINE_string("train_dir", "./datas", "Training directory.")
-tf.compat.v1.app.flags.DEFINE_integer("max_train_data_size", 0,
+tf.app.flags.DEFINE_integer("size", 256, "Size of each model layer.")
+tf.app.flags.DEFINE_integer("num_layers", 2, "Number of layers in the model.")
+tf.app.flags.DEFINE_integer("in_vocab_size", 500, "input vocabulary size.")
+tf.app.flags.DEFINE_integer("out_vocab_size", 500, "output vocabulary size.")
+tf.app.flags.DEFINE_string("data_dir", "./datas", "Data directory")
+tf.app.flags.DEFINE_string("train_dir", "./datas", "Training directory.")
+tf.app.flags.DEFINE_integer("max_train_data_size", 0,
                             "Limit on the size of training data (0: no limit).")
-tf.compat.v1.app.flags.DEFINE_integer("steps_per_checkpoint", 100,
+tf.app.flags.DEFINE_integer("steps_per_checkpoint", 100,
                             "How many training steps to do per checkpoint.")
-tf.compat.v1.app.flags.DEFINE_boolean("decode", False,
+tf.app.flags.DEFINE_boolean("decode", False,
                             "Set to True for interactive decoding.")
-tf.compat.v1.app.flags.DEFINE_boolean("self_test", False,
+tf.app.flags.DEFINE_boolean("self_test", False,
                             "Run a self-test if this is set to True.")
 
-FLAGS = tf.compat.v1.app.flags.FLAGS
+FLAGS = tf.app.flags.FLAGS
 
 _buckets = [(5, 10), (10, 15), (20, 25), (40, 50)]
 
@@ -94,7 +94,7 @@ def create_model(session, forward_only):
     model.saver.restore(session, ckpt.model_checkpoint_path)                        
   else:
     print("Created model with fresh parameters.")
-    session.run(tf.compat.v1.initialize_all_variables())                                      
+    session.run(tf.initialize_all_variables())                                      
   return model
 
 def train():
@@ -104,7 +104,7 @@ def train():
       FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)                     
 
 
-  with tf.compat.v1.Session() as sess:
+  with tf.Session() as sess:
 
 
     print("Creating %d layers of %d units." % (FLAGS.num_layers, FLAGS.size))       
@@ -169,7 +169,7 @@ def train():
 
 
 def decode():
-  with tf.compat.v1.Session() as sess:
+  with tf.Session() as sess:
     model = create_model(sess, True)                         
     model.batch_size = 1  
 
@@ -211,12 +211,12 @@ def decode():
 
 def self_test():
 
-  with tf.compat.v1.Session() as sess:
+  with tf.Session() as sess:
     print("Self-test for neural translation model.")
 
     model = seq2seq_model.Seq2SeqModel(10, 10, [(3, 3), (6, 6)], 32, 2,
                                        5.0, 32, 0.3, 0.99, num_samples=8)
-    sess.run(tf.compat.v1.initialize_all_variables())
+    sess.run(tf.initialize_all_variables())
 
 
     data_set = ([([1, 1], [2, 2]), ([3, 3], [4]), ([5], [6])],
@@ -246,4 +246,4 @@ def main(_):
     train()
 
 if __name__ == "__main__":
-  tf.compat.v1.app.run()
+  tf.app.run()

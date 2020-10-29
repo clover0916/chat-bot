@@ -49,28 +49,28 @@ FLAGS = tf.app.flags.FLAGS
 _buckets = [(5, 10), (10, 15), (20, 25), (40, 50)]
 
 
-def read_data(source_path, target_path, max_size = None):
-data_set = [[] for _ in _buckets]
-source_file = open(source_path,"r")
-target_file = open(target_path,"r")
+def read_data(source_path, target_path, max_size=None):
+  data_set = [[] for _ in _buckets]
+  source_file = open(source_path,"r")
+  target_file = open(target_path,"r")
 
-source, target = source_file.readline(), target_file.readline()
-counter = 0
-while source and target and (not max_size or counter < max_size):
-counter += 1
-if counter % 50 == 0:
-print("  reading data line %d" % counter)
-sys.stdout.flush()
+  source, target = source_file.readline(), target_file.readline()
+  counter = 0
+  while source and target and (not max_size or counter < max_size):
+    counter += 1
+    if counter % 50 == 0:
+      print("  reading data line %d" % counter)
+      sys.stdout.flush()
 
-source_ids = [int(x) for x in source.split()]
-target_ids = [int(x) for x in target.split()]
-target_ids.append(data_utils.EOS_ID)
-for bucket_id, (source_size, target_size) in enumerate(_buckets):
-if len(source_ids) < source_size and len(target_ids) < target_size:
-data_set[bucket_id].append([source_ids, target_ids])
-break
-source, target = source_file.readline(), target_file.readline()
-return data_set
+    source_ids = [int(x) for x in source.split()]
+    target_ids = [int(x) for x in target.split()]
+    target_ids.append(data_utils.EOS_ID)
+    for bucket_id, (source_size, target_size) in enumerate(_buckets):
+      if len(source_ids) < source_size and len(target_ids) < target_size:
+        data_set[bucket_id].append([source_ids, target_ids])
+        break
+    source, target = source_file.readline(), target_file.readline()
+  return data_set
 
 def create_model(session, forward_only):
 model = seq2seq_model.Seq2SeqModel(

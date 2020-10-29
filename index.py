@@ -98,9 +98,9 @@ model = create_model(sess, True)
 model.batch_size = 1
 
 in_vocab_path = os.path.join(FLAGS.data_dir,
-  "vocab_in.txt")
+                             "vocab_in.txt")
 out_vocab_path = os.path.join(FLAGS.data_dir,
-  "vocab_out.txt")
+                             "vocab_out.txt" )
 
 in_vocab, _ = data_utils.initialize_vocabulary(in_vocab_path)
 _, rev_out_vocab = data_utils.initialize_vocabulary(out_vocab_path)
@@ -108,34 +108,32 @@ _, rev_out_vocab = data_utils.initialize_vocabulary(out_vocab_path)
 
 #発話から応答を生成する
 def decode(sent):
-'''seq2seqモデルによる応答生成
+  '''seq2seqモデルによる応答生成
   引数 sent(str)：発話
   返値 out(str)：応答
   '''
-sentence = sent
-sentence = wakati(sentence)
+  sentence = sent
+  sentence = wakati(sentence)
 
-token_ids = data_utils.sentence_to_token_ids(sentence, in_vocab)
+  token_ids = data_utils.sentence_to_token_ids(sentence, in_vocab)
 
-bucket_id = min([b for b in xrange(len(_buckets))
-  if _buckets[b][0] > len(token_ids)])
+  bucket_id = min([b for b in xrange(len(_buckets))
+                     if _buckets[b][0] > len(token_ids)])
 
-encoder_inputs, decoder_inputs, target_weights = model.get_batch(
-  {
-    bucket_id: [(token_ids, [])]}, bucket_id)
+  encoder_inputs, decoder_inputs, target_weights = model.get_batch(
+      {bucket_id: [(token_ids, [])]}, bucket_id)
 
-_, _, output_logits = model.step(sess, encoder_inputs, decoder_inputs,
-  target_weights, bucket_id, True)
+  _, _, output_logits = model.step(sess, encoder_inputs, decoder_inputs,
+                                     target_weights, bucket_id, True)
 
-outputs = [int(np.argmax(logit, axis = 1)) for logit in output_logits]
+  outputs = [int(np.argmax(logit, axis=1)) for logit in output_logits]
 
-if data_utils.EOS_ID in outputs:
-outputs = outputs[:outputs.index(data_utils.EOS_ID)]
+  if data_utils.EOS_ID in outputs:
+    outputs = outputs[:outputs.index(data_utils.EOS_ID)]
 
-out = "".join([rev_out_vocab[output] for output in outputs])
+  out = "".join([rev_out_vocab[output] for output in outputs])
 
-return out
-
+  return out
 
 def wakati(input_str):
 '''分かち書き用関数

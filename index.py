@@ -73,25 +73,24 @@ def read_data(source_path, target_path, max_size=None):
   return data_set
 
 def create_model(session, forward_only):
-model = seq2seq_model.Seq2SeqModel(
-  FLAGS.in_vocab_size, FLAGS.out_vocab_size, _buckets,
-  FLAGS.size, FLAGS.num_layers, FLAGS.max_gradient_norm, FLAGS.batch_size,
-  FLAGS.learning_rate, FLAGS.learning_rate_decay_factor,
-  forward_only = forward_only)
+  model = seq2seq_model.Seq2SeqModel(
+      FLAGS.in_vocab_size, FLAGS.out_vocab_size, _buckets,
+      FLAGS.size, FLAGS.num_layers, FLAGS.max_gradient_norm, FLAGS.batch_size,
+      FLAGS.learning_rate, FLAGS.learning_rate_decay_factor,
+      forward_only=forward_only)
 
-ckpt = tf.train.get_checkpoint_state(FLAGS.train_dir)
-#if ckpt and gfile.Exists(ckpt.model_checkpoint_path):
-#add
-if not os.path.isabs(ckpt.model_checkpoint_path):
-ckpt.model_checkpoint_path = os.path.abspath(os.path.join(os.getcwd(), ckpt.model_checkpoint_path))
-#so far
-print("Reading model parameters from %s" % ckpt.model_checkpoint_path)
-model.saver.restore(session, ckpt.model_checkpoint_path)
-else :
-print("Created model with fresh parameters.")
-session.run(tf.initialize_all_variables())
-return model
-
+  ckpt = tf.train.get_checkpoint_state(FLAGS.train_dir)
+  #if ckpt and gfile.Exists(ckpt.model_checkpoint_path):
+    #add
+  if not os.path.isabs(ckpt.model_checkpoint_path):
+    ckpt.model_checkpoint_path= os.path.abspath(os.path.join(os.getcwd(), ckpt.model_checkpoint_path))
+    #so far
+    print("Reading model parameters from %s" % ckpt.model_checkpoint_path)
+    model.saver.restore(session, ckpt.model_checkpoint_path)
+  else:
+    print("Created model with fresh parameters.")
+    session.run(tf.initialize_all_variables())
+  return model
 
 #学習済みモデル、語彙ファイルを読み込み
 sess = tf.Session()

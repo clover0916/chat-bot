@@ -136,14 +136,13 @@ def decode(sent):
   return out
 
 def wakati(input_str):
-'''分かち書き用関数
+        '''分かち書き用関数
         引数 input_str : 入力テキスト
         返値 m.parse(wakatext) : 分かち済みテキスト'''
-m = MeCab.Tagger('-Owakati -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
-wakatext = input_str
-#print(m.parse(wakatext))
-return m.parse(wakatext)
-
+        m = MeCab.Tagger('-Owakati -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
+        wakatext = input_str
+        #print(m.parse(wakatext))
+        return m.parse(wakatext)
 
 import discord
 import json
@@ -154,13 +153,13 @@ config = json.load(json_open)
 
 @client.event
 async def on_ready():
-print('We have logged in as {0.user}'.format(client))
+  print('We have logged in as {0.user}'.format(client))
 
 @client.event
 async def on_message(message):
-if not message.content.startswith(config['prefix']) and message.author == client.user:
-return
-out = decode(message.content)
-await message.channel.send(out)
+  if not message.content.startswith(config['prefix']) and message.author == client.user:
+    return
+  out = decode(message.content)
+  await message.channel.send(out)
 
 client.run(config['token'])

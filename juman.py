@@ -5,6 +5,24 @@ import pickle
 
 #*******************************************************************************
 #                                                                              *
+#   単語補正                                                                   *
+#                                                                              *
+#*******************************************************************************
+def modification(word) :
+    if len(word) > 7 and word[:7] == 'SSSSUNK' :
+        modified = ['SSSS', word[7:]]
+    elif len(word) > 4 and word[:4] == 'SSSS' :
+        modified = ['SSSS', word[4:]]
+    elif word == 'UNKUNK' :
+        modified = ['UNK']
+    elif len(word) > 3 and word[:3] == 'UNK' :
+        modified = ['UNK', word[3:]]
+    else :
+        modified = [word]
+    return modified
+
+#*******************************************************************************
+#                                                                              *
 #   品詞分解                                                                   *
 #                                                                              *
 #*******************************************************************************
@@ -21,6 +39,8 @@ def decomposition(file, jumanpp) :
         else :
             print(i, ' skip')
             continue
+        for mrph in result.mrph_list():
+            parts += modification(mrph.midasi)
         if i % 5000 == 0 :
             print(i)
     return parts

@@ -91,6 +91,17 @@ def make_data(fname,data2) :
         data2.append("SSSS"+t)
         text = text[end_s+4:]
     f.close()
-    return
-  
-make_data("../tweet.txt", "./")
+    returnfile_list = glob.glob('nucc/*')
+print(len(file_list))
+
+data2=[]
+for j in range(0,len(file_list)) :
+    print(file_list[j])
+    make_data(file_list[j],data2)
+
+#ファイルセーブ
+f = open('corpus/corpus_MEIDAI.txt','w')
+for i in range(0,len(data2)):
+    f.write(str(data2[i])+"\n")
+f.close()
+print(len(data2))

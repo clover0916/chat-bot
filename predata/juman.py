@@ -91,7 +91,9 @@ def make_data(fname,data2) :
         data2.append("SSSS"+t)
         text = text[end_s+4:]
     f.close()
-    returnfile_list = glob.glob('nucc/*')
+    return
+
+file_list = glob.glob('nucc/*')
 print(len(file_list))
 
 data2=[]

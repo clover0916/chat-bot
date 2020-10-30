@@ -9,17 +9,17 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if len(word) > 7 and word[:7] == 'SSSSUNK' :
-        modified = ['SSSS', word[7:]]
-    elif len(word) > 4 and word[:4] == 'SSSS' :
-        modified = ['SSSS', word[4:]]
-    elif word == 'UNKUNK' :
+    words =word.replace(' ', '　')
+    if len(words) > 7 and words[:7] == 'SSSSUNK' :
+        modified = ['SSSS', words[7:]]
+    elif len(words) > 4 and words[:4] == 'SSSS' :
+        modified = ['SSSS', words[4:]]
+    elif words == 'UNKUNK' :
         modified = ['UNK']
-    elif len(word) > 3 and word[:3] == 'UNK' :
-        modified = ['UNK', word[3:]]
+    elif len(words) > 3 and words[:3] == 'UNK' :
+        modified = ['UNK', words[3:]]
     else :
-        cleaned_string = word.replace(' ', '　')
-        modified = [cleaned_string]
+        modified = [words]
     return modified
 
 #*******************************************************************************

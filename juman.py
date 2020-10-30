@@ -26,8 +26,8 @@ def decomposition(file, jumanpp) :
     parts = []
     for i in range(len(data)) :
         if len(data[i][0].encode('utf-8')) <= 4096 :
-            data[i][0].replace(' ', '　')
-            result = jumanpp.analysis(data[i][0])
+            word = data[i][0].replace(' ', '　')
+            result = jumanpp.analysis(word)
         else :
             print(i, ' skip')
             continue

@@ -9,8 +9,6 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if len(word) > 4096 :
-        modified = []
     if len(word) > 7 and word[:7] == 'SSSSUNK' :
         modified = ['SSSS', word[7:]]
     elif len(word) > 4 and word[:4] == 'SSSS' :
@@ -20,7 +18,8 @@ def modification(word) :
     elif len(word) > 3 and word[:3] == 'UNK' :
         modified = ['UNK', word[3:]]
     else :
-        modified = [word]
+        cleaned_string = word.replace(' ', '　')
+        modified = [cleaned_string]
     return modified
 
 #*******************************************************************************

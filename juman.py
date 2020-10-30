@@ -9,7 +9,7 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if len(word.encode('utf-8')) > 4096:
+    if len(word.encode('utf-8')) > 4096 :
         modified = []
     if len(word) > 7 and word[:7] == 'SSSSUNK' :
         modified = ['SSSS', word[7:]]

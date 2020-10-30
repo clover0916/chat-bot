@@ -92,3 +92,5 @@ def make_data(fname,data2) :
         text = text[end_s+4:]
     f.close()
     return
+  
+make_data("../tweet.txt", "./")

@@ -8,7 +8,7 @@
 def genarate_npy(source_csv ,list_corpus) :
     with codecs.open(source_csv, 'r', 'utf-8', 'ignore') as f :
 
-        df2 = csv.reader(f,delimiter=' ')
+        df2 = pickle.load(f)
 
         mat = [ v for v in df2]
         print(len(mat))

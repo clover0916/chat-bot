@@ -1,12 +1,12 @@
 # coding: utf-8
-import codecs
+
 #**********************************************************************************
 #                                                                                 *
 #  juman++の品詞分解結果をリストに書き出し                                        *
 #                                                                                 *
 #**********************************************************************************
 def genarate_npy(source_csv ,list_corpus) :
-    with codecs(source_csv, 'r', 'utf-8', 'ignore') as f :
+    with codecs.open(source_csv, 'r', 'utf-8', 'ignore') as f :
 
         df2 = csv.reader(f,delimiter=' ')
 
@@ -45,6 +45,7 @@ if __name__ == '__main__':
     import glob
     import re
     import pickle
+    import codecs
 
     file_list = glob.glob('juman/*')
     print(len(file_list))

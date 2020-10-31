@@ -57,5 +57,4 @@ for j in range(len(file_list)) :
 
 with open('parts_list.csv', 'wb') as f :    
     writer = csv.writer(f)
-    parts_list = parts_list.decode()
-    writer.writerow(parts_list)
+    writer.writerows(parts_list)

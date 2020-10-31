@@ -9,7 +9,6 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    print(word)
     if word.startswith('REQ:') :
         modified = 'REQREQ' + word[4:]
     elif word.startswith('RES:') :

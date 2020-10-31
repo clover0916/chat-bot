@@ -9,7 +9,7 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if word == 'RE' :
+    if 'RE' in word :
       if word == 'RES' :
           modified = ['RESRES']
       else:

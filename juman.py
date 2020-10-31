@@ -14,9 +14,9 @@ def modification(word) :
           modified = ['RESRES']
       else:
           modified = ['REQREQ']
-    if word == 'Q' :
+    elif word == 'Q' :
         modified = ['UNK']
-    if word == ':' :
+    elif word == ':' :
         modified = ['UNK']
     else :
         modified = [word]

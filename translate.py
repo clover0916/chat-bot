@@ -367,7 +367,7 @@ class Dialog :
         # Generate empty target sequence of length 1.
         target_seq = np.zeros((1,1))
         # Populate the first character of target sequence with the start character.
-        target_seq[0,  0] = word_indices['SSSS']
+        target_seq[0,  0] = word_indices['RESRES']
         decoder_input_c = encoder_outputs[:,-1,:].reshape((1,1,self.n_hidden))
 
         # Sampling loop for a batch of sequences
@@ -383,7 +383,7 @@ class Dialog :
             sampled_char = indices_word[sampled_token_index]
 
             # Exit condition: find stop character.
-            if sampled_char == 'SSSS' :
+            if sampled_char == 'REQREQ' :
                 break
             decoded_sentence += sampled_char    
             # Update the target sequence (of length 1).

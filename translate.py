@@ -87,10 +87,10 @@ t_train,t_test=np.vsplit(t,[n_split])   #ラベルデータを訓練用とテス
 
 vec_dim = 400
 epochs = 10
-batch_size = 100
+batch_size = 80
 input_dim = len(words)
 output_dim = input_dim
-n_hidden = int(vec_dim*2 ) #隠れ層の次元
+n_hidden = int(vec_dim*1.5 ) #隠れ層の次元
 
 prediction = Dialog(maxlen_e,maxlen_d,n_hidden,input_dim,vec_dim,output_dim)
 emb_param = 'param_seq2seq0212.hdf5'

@@ -9,9 +9,17 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    modified = word
-    mod = modified.replace(' ', '　')
-    return mod
+    if  and word[:7] == 'SSSSUNK' :
+        modified = ['SSSS', word[7:]]
+    elif len(word) > 4 and word[:4] == 'SSSS' :
+        modified = ['SSSS', word[4:]]
+    elif word == 'UNKUNK' :
+        modified = ['UNK']
+    elif len(word) > 3 and word[:3] == 'UNK' :
+        modified = ['UNK', word[3:]]
+    else :
+        modified = [word]
+    return modified
 
 #*******************************************************************************
 #                                                                              *
@@ -28,13 +36,16 @@ def decomposition(file, jumanpp) :
     for i in range(len(data)) :
         word = data[i][0].replace(" ", "")
         if len(word.encode('utf-8')) <= 4096 :
-            datas = modification(data[i][0])
+            datas = data[i[0]].replace(' ', '　')
+            print(datas)
             result = jumanpp.analysis(datas)
         else :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            parts += mrph.midasi
+          print(mrph.midasi)
+            parts += modification(mrph.midasi)
+            
         if i % 10 == 0 :
             print(i)
     return parts
@@ -44,7 +55,6 @@ def decomposition(file, jumanpp) :
 #                                                                              *
 #*******************************************************************************
 from pyknp import Juman
-import csv
 jumanpp = Juman()
 file_list=glob.glob('corpus/*')
 file_list.sort()
@@ -55,7 +65,5 @@ for j in range(len(file_list)) :
     print(file_list[j])
     parts_list += decomposition(file_list[j], jumanpp)
 
-with open('parts_list.csv', 'wb') as f :    
-    writer = csv.writer(f)
-    parts_list = parts_list.encode()
-    writer.writerows(parts_list)
+with open('parts_list.txt', 'wb') as f :    
+    pickle.dump(parts_list , f)

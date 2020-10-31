@@ -22,19 +22,8 @@ def generate_mat() :
     print('total words:', len(words))
     word_indices = dict((w, i) for i, w in enumerate(words))    #単語をキーにインデックス検索
     indices_word = dict((i, w) for i, w in enumerate(words))    #インデックスをキーに単語を検索
-
-    #単語の出現数をカウント
-    for j in range (0,len(mat)):
-        cnt[word_indices[mat[j]]] += 1
-        
     #単語インデックス配列作成
     mat_urtext = np.zeros((len(mat),1),dtype=int)
-    for i in range(0,len(mat)):
-        if mat[i] in word_indices :           #出現頻度の低い単語のインデックスをunkのそれに置き換え
-            mat_urtext[i,0] = word_indices[mat[i]]
-        else:
-            mat_urtext[i,0] = word_indices['UNK']
-
     print(mat_urtext.shape)
 
     #作成した辞書をセーブ

@@ -30,13 +30,13 @@ def decomposition(file, jumanpp) :
     f=open(file, 'r')
     df1 = csv.reader(f)
     data = [ v for v in df1]
-    datas = data[i][0].replace(' ', '　')
     print('number of rows :', len(data))
 
     parts = []
-    for i in range(len(datas)) :
-        if len(datas[i][0].encode('utf-8')) <= 4096 :
-            result = jumanpp.analysis(datas[i][0])
+    for i in range(len(data)) :
+        word = data.replace(" ", "　")
+        if len(word.encode('utf-8')) <= 4096 :
+            result = jumanpp.analysis(word)
         else :
             print(i, ' skip')
             continue

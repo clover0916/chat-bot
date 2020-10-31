@@ -1,5 +1,5 @@
 # coding: utf-8
-
+import codecs
 #**********************************************************************************
 #                                                                                 *
 #  juman++の品詞分解結果をリストに書き出し                                        *
@@ -45,7 +45,6 @@ if __name__ == '__main__':
     import glob
     import re
     import pickle
-    import codecs
 
     file_list = glob.glob('juman/*')
     print(len(file_list))

@@ -32,6 +32,7 @@ def generate_tensors(maxlen_e,maxlen_d) :
     # コーパスをエンコーダ入力、デコーダ入力応答文のテンソルに変換             *
     #                                                                          *
     #--------------------------------------------------------------------------*
+    print(word_indices)
     req = word_indices['REQREQ']
     res = word_indices['RESRES']
 

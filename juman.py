@@ -57,4 +57,5 @@ for j in range(len(file_list)) :
 
 with open('parts_list.csv', 'wb') as f :    
     writer = csv.writer(f)
+    parts_list = parts_list.encode()
     writer.writerows(parts_list)

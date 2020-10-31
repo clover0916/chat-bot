@@ -9,16 +9,7 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if word.startswith('REQ:') :
-        modified = 'REQREQ' + word[4:]
-    elif word.startswith('RES:') :
-        modified = 'REQREQ' + word[4:]
-    elif '@' in word :
-        modified = 'UNK'
-    elif 'EOS' in word:
-        modified = 'UNK'
-    else :
-        modified = word
+    modified = word
     mod = modified.replace(' ', '　')
     return mod
 

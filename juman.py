@@ -34,10 +34,8 @@ def decomposition(file, jumanpp) :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            if 'REQ' in mrph.midasi:
-              print(mrph.midasi)
             parts += mrph.midasi
-        if i % 5000 == 0 :
+        if i % 10 == 0 :
             print(i)
     return parts
 #*******************************************************************************

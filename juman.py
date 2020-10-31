@@ -9,10 +9,11 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if word == 'RES' :
-        modified = ['RESRES']
-    elif word == 'RE' :
-        modified = ['UNK']
+    if word == 'RE' :
+      if word == 'RES' :
+          modified = ['RESRES']
+      else:
+          modified = ['REQREQ']
     if word == 'Q' :
         modified = ['UNK']
     if word == ':' :

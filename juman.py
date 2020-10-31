@@ -30,8 +30,8 @@ def decomposition(file, jumanpp) :
     f=open(file, 'r')
     df1 = csv.reader(f)
     data = [ v for v in df1]
-    datas = data.replace(' ', '　')
-    print('number of rows :', len(datas))
+    datas = data[i][0].replace(' ', '　')
+    print('number of rows :', len(data))
 
     parts = []
     for i in range(len(datas)) :

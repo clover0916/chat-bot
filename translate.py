@@ -397,7 +397,7 @@ class Dialog :
         return decoded_sentence            
 
 vec_dim = 400
-epochs = 10
+epochs = 1
 batch_size = 80
 input_dim = len(words)
 output_dim = input_dim

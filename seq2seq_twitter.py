@@ -100,7 +100,8 @@ if __name__ == '__main__':
     import os
 
     from keras.utils import plot_model
-    from pyknp import Jumanpp
+    from pyknp import Juman
+    Jumanpp = Juman()
     import codecs
 
     args = sys.argv

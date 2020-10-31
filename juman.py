@@ -34,7 +34,7 @@ def decomposition(file, jumanpp) :
 
     parts = []
     for i in range(len(data)) :
-        word = data.replace(" ", "　")
+        word = data[i][0].replace(" ", "")
         if len(word.encode('utf-8')) <= 4096 :
             result = jumanpp.analysis(word)
         else :

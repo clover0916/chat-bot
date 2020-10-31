@@ -8,9 +8,6 @@ import pickle
 #   単語補正                                                                   *
 #                                                                              *
 #*******************************************************************************
-def modification(word) :
-    modified = [word]
-    return modified
 
 #*******************************************************************************
 #                                                                              *
@@ -32,7 +29,7 @@ def decomposition(file, jumanpp) :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            parts += modification(mrph.midasi)
+            parts += mrph.midasi
         if i % 5000 == 0 :
             print(i)
     return parts

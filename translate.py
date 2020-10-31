@@ -1,3 +1,4 @@
+from __future__ import print_function
 import tensorflow as tf
 import numpy as np
 import csv
@@ -11,7 +12,6 @@ import pickle
 import gc
 import os
 
-from __future__ import print_function
 from keras.layers.core import Dense
 from keras.layers.core import Masking
 from keras.layers import Input

@@ -14,6 +14,7 @@ def generate_mat() :
 
 
     mat.append('REQREQ')
+    mat.append('RESRES')
 
     print(len(mat))
     words = sorted(list(set(mat)))

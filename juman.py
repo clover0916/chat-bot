@@ -17,7 +17,7 @@ import pickle
 def decomposition(file, jumanpp) :
     f=open(file, 'r')
     df1 = csv.reader(f)
-    print('number of rows :', len(data))
+    print('number of rows :', len(df))
 
     parts = []
     for i in range(len(df1)) :

@@ -62,4 +62,4 @@ for j in range(len(file_list)) :
     parts_list += decomposition(file_list[j], jumanpp)
 
 with open('parts_list.txt', 'wb') as f :    
-    f.write(parts_list)
+    f.write(str(parts_list))

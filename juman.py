@@ -34,7 +34,7 @@ def decomposition(file, jumanpp) :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            if 'RES' in mrph.midasi:
+            if 'RES' in mrph.midasi and ':' in mrph.midasi:
               print(mrph.midasi)
             parts += mrph.midasi
         if i % 5000 == 0 :

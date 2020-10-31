@@ -34,6 +34,32 @@ from pyknp import Juman
 jumanpp = Juman()
 import codecs
 
+#単語ファイルロード
+with open('words.pickle', 'rb') as ff :
+    words=pickle.load(ff)         
+
+#Encoder Inputデータをロード
+with open('e.pickle', 'rb') as f :
+    e = pickle.load(f)
+
+#Decoder Inputデータをロード
+with open('d.pickle', 'rb') as g :
+    d = pickle.load(g)
+
+#ラベルデータをロード
+with open('t.pickle', 'rb') as h :
+    t = pickle.load(h)
+
+#maxlenロード
+with open('maxlen.pickle', 'rb') as maxlen :
+    [maxlen_e, maxlen_d] = pickle.load(maxlen)
+
+
+n_split=int(e.shape[0]*0.95)            #訓練データとテストデータを95:5に分割
+e_train,e_test=np.vsplit(e,[n_split])   #エンコーダインプットデータを訓練用とテスト用に分割
+d_train,d_test=np.vsplit(d,[n_split])   #デコーダインプットデータを訓練用とテスト用に分割
+t_train,t_test=np.vsplit(t,[n_split])   #ラベルデータを訓練用とテスト用に分割
+
 class Dialog :
     def __init__(self,maxlen_e,maxlen_d,n_hidden,input_dim,vec_dim,output_dim):
         self.maxlen_e=maxlen_e

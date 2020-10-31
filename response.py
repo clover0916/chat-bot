@@ -90,7 +90,7 @@ def initialize_models(emb_param ,maxlen_e, maxlen_d ,vec_dim, input_dim,output_d
 
 def encode_request(cns_input, maxlen_e, word_indices, words, encoder_model) :
     # Use Juman++ in subprocess mode
-    jumanpp = Jumanpp()
+    jumanpp = Juman()
     result = jumanpp.analysis(cns_input)
     input_text=[]
     for mrph in result.mrph_list():

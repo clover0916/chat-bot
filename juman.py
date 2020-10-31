@@ -13,13 +13,13 @@ def modification(word) :
         modified = 'REQREQ' + word[4:]
     elif word.startswith('RES:') :
         modified = 'REQREQ' + word[4:]
-    elif word[0] == '@' :
-        modified = ['UNK']
-    elif word == 'EOS' :
-        modified = ['UNK']
+    elif '@' in word :
+        modified = 'UNK'
+    elif 'EOS' in word:
+        modified = 'UNK'
     else :
-        modified = [word]
-    print(modified)
+        modified = word
+    mod = modified.replace(' ', '　')
     return modified
 
 #*******************************************************************************

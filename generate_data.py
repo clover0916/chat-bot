@@ -32,7 +32,6 @@ def generate_tensors(maxlen_e,maxlen_d) :
     # コーパスをエンコーダ入力、デコーダ入力応答文のテンソルに変換             *
     #                                                                          *
     #--------------------------------------------------------------------------*
-    print(word_indices['REQREQ'])
     req = word_indices['REQREQ']
     res = word_indices['RESRES']
 
@@ -56,6 +55,7 @@ def generate_tensors(maxlen_e,maxlen_d) :
     #デリミタを目印に、コーパスから文章データを切り出して入力／ラベルマトリックスにコピー
     j = 0
     err_cnt = 0
+
     for i in range(0,n) :
         index1=2*i+err_cnt         # 「REQREQ」のインデックス
         index2=2*i+1+err_cnt       # 「RESRES」のインデックス
@@ -67,8 +67,6 @@ def generate_tensors(maxlen_e,maxlen_d) :
             print('シーケンスエラー ',i)
             print(index1,index2)
             print(delimiters[index1],delimiters[index2])
-            print(mat_urtext[delimiters[index1] ,0], mat_urtext[delimiters[index2],0])
-            print(mat_urtext[delimiters[index1]:delimiters[index3],0])
             err_cnt += 1
             continue
         len_e = delimiters[index2] - delimiters[index1] - 1
@@ -85,9 +83,32 @@ def generate_tensors(maxlen_e,maxlen_d) :
     #会話文データを書き込んだ分だけ切り出す
     e = enc_input[0:j,:].reshape(j,maxlen_e,1)
     d = dec_input[0:j,:].reshape(j,maxlen_d,1)
-    t = target[0:j,:].reshape(j,maxlen_d,1)
+    t_ = target[0:j,:].reshape(j,maxlen_d,1)
 
-    print(e.shape,d.shape,t.shape)
+    #ラベルテンソル定義
+    t = np.zeros((j,maxlen_d,2),dtype='int32')
+
+    #各単語の出現頻度カウント
+    cnt = np.zeros(len(words),dtype='int32')
+    for i in range (0,mat_urtext.shape[0]) :
+        cnt[mat_urtext[i,0]] += 1
+
+    #出現頻度の降順配列
+    freq_indices = np.argsort(cnt)[::-1]          #出現頻度からインデックス検索
+    indices_freq = np.argsort(freq_indices)       #インデックスから出現頻度検索
+
+    #
+    dim = math.ceil(len(words) / 8)
+
+    #ラベルテンソル作成
+    for i in range(0,j) :
+        for k in range(0,maxlen_d) :
+            if t_[i,k] != 0 :
+                freq = indices_freq[int(t_[i,k])]
+                t[i,k,0] = freq // dim
+                t[i,k,1] = freq % dim
+            else :
+                break
 
     # シャッフル処理
     z = list(zip(e, d, t))
@@ -98,7 +119,8 @@ def generate_tensors(maxlen_e,maxlen_d) :
 
     e = np.array(e).reshape(j,maxlen_e,1)
     d = np.array(d).reshape(j,maxlen_d,1)
-    t = np.array(t).reshape(j,maxlen_d,1)
+    t = np.array(t).reshape(j,maxlen_d,2)
+
 
     print(e.shape,d.shape,t.shape)
 
@@ -123,6 +145,14 @@ def generate_tensors(maxlen_e,maxlen_d) :
     with open('maxlen.pickle', 'wb') as maxlen :
         pickle.dump([maxlen_e, maxlen_d] , maxlen)
 
+
+    #各単語の出現頻度順位（降順）
+    with open('freq_indices.pickle', 'wb') as f :    
+        pickle.dump(freq_indices , f)
+    #出現頻度→インデックス変換
+    with open('indices_freq.pickle', 'wb') as f :    
+        pickle.dump(indices_freq , f)
+
 #*******************************************************************************
 #                                                                              *
 # メイン処理                                                                   *
@@ -133,6 +163,7 @@ if __name__ == '__main__':
     import numpy.random as nr
     import pickle
     import numpy as np
+    import math
     import sys
 
     args = sys.argv

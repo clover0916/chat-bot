@@ -20,7 +20,7 @@ def modification(word) :
     else :
         modified = word
     mod = modified.replace(' ', '　')
-    return modified
+    return mod
 
 #*******************************************************************************
 #                                                                              *

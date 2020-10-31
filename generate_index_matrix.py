@@ -12,9 +12,8 @@ def generate_mat() :
             print(i)
             del generated_list
 
-
+    print(mat[500])
     mat.append('REQREQ')
-    mat.append('RESRES')
 
     print(len(mat))
     words = sorted(list(set(mat)))

@@ -64,5 +64,5 @@ for j in range(len(file_list)) :
     print(file_list[j])
     parts_list += decomposition(file_list[j], jumanpp)
 
-with open('parts_list.txt', 'wb') as f :    
+with open('parts_list.pickle', 'wb') as f :    
     pickle.dump(parts_list , f)

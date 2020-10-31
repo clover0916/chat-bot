@@ -9,14 +9,14 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if word[:7] == 'SSSSUNK' :
-        modified = ['SSSS', word[7:]]
-    elif len(word) > 4 and word[:4] == 'SSSS' :
-        modified = ['SSSS', word[4:]]
-    elif word == 'UNKUNK' :
+    if word == 'RES' :
+        modified = ['RESRES']
+    elif word == 'RE' :
         modified = ['UNK']
-    elif len(word) > 3 and word[:3] == 'UNK' :
-        modified = ['UNK', word[3:]]
+    if word == 'Q' :
+        modified = ['UNK']
+    if word == ':' :
+        modified = ['UNK']
     else :
         modified = [word]
     return modified
@@ -43,7 +43,7 @@ def decomposition(file, jumanpp) :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            print(mrph.midasi)
+            print(modification(mrph.midasi))
             parts += modification(mrph.midasi)
             
         if i % 10 == 0 :

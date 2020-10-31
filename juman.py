@@ -9,14 +9,14 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if len(word) > 7 and word[:7] == 'SSSSUNK' :
-        modified = ['SSSS', word[7:]]
-    elif len(word) > 4 and word[:4] == 'SSSS' :
-        modified = ['SSSS', word[4:]]
-    elif word == 'UNKUNK' :
+    if word[:3] == 'RES:' :
+        modified = ['RESRES', word[3:]]
+    elif word[:3] == 'REQ:' :
+        modified = ['REQREQ', word[3:]]
+    elif word[0] == '@' :
         modified = ['UNK']
-    elif len(word) > 3 and word[:3] == 'UNK' :
-        modified = ['UNK', word[3:]]
+    elif word == 'EOS' :
+        modified = ['UNK']
     else :
         modified = [word]
     return modified
@@ -42,7 +42,7 @@ def decomposition(file, jumanpp) :
             continue
         for mrph in result.mrph_list():
             parts += modification(mrph.midasi)
-        if i % 100 == 0 :
+        if i % 5000 == 0 :
             print(i)
     return parts
 #*******************************************************************************
@@ -61,6 +61,5 @@ for j in range(len(file_list)) :
     print(file_list[j])
     parts_list += decomposition(file_list[j], jumanpp)
 
-with open('parts_list.txt', 'wb') as f :
-    parts_list = parts_list.encode() 
-    f.write(parts_list)
+with open('parts_list.pickle', 'wb') as f :    
+    pickle.dump(parts_list , f)

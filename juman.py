@@ -56,4 +56,5 @@ for j in range(len(file_list)) :
     parts_list += decomposition(file_list[j], jumanpp)
 
 with open('parts_list.csv', 'wb') as f :    
-    f.writerow(['fl=',fl])
+    writer = csv.writer(f)
+    writer.writerow(parts_list)

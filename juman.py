@@ -44,6 +44,7 @@ def decomposition(file, jumanpp) :
 #                                                                              *
 #*******************************************************************************
 from pyknp import Juman
+import csv
 jumanpp = Juman()
 file_list=glob.glob('corpus/*')
 file_list.sort()
@@ -54,5 +55,5 @@ for j in range(len(file_list)) :
     print(file_list[j])
     parts_list += decomposition(file_list[j], jumanpp)
 
-with open('parts_list.txt', 'wb') as f :    
-    f.write(parts_list , '\n')
+with open('parts_list.csv', 'wb') as f :    
+    f.writerow(['fl=',fl])

@@ -19,6 +19,7 @@ def modification(word) :
         modified = ['UNK']
     else :
         modified = [word]
+    print(modified)
     return modified
 
 #*******************************************************************************
@@ -37,7 +38,6 @@ def decomposition(file, jumanpp) :
         word = data[i][0].replace(" ", "")
         if len(word.encode('utf-8')) <= 4096 :
             datas = modification(data[i][0])
-            print(datas)
             result = jumanpp.analysis(datas)
         else :
             print(i, ' skip')

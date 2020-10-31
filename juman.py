@@ -9,14 +9,14 @@ import pickle
 #                                                                              *
 #*******************************************************************************
 def modification(word) :
-    if word == 'RES:' :
-        modified = ['RESRES', word[4:]]
-    elif word == 'REQ:' :
+    if word[:3] == 'REQ:' :
+        modified = ['REQREQ', word[4:]]
+    elif word[:3] == 'RES:' :
         modified = ['REQREQ', word[4:]]
     elif word[0] == '@' :
-        modified = []
+        modified = ['UNK']
     elif word == 'EOS' :
-        modified = []
+        modified = ['UNK']
     else :
         modified = [word]
     return modified

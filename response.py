@@ -23,7 +23,8 @@ import gc
 import os
 
 from keras.utils import plot_model
-from pyknp import Jumanpp
+from pyknp import Juman
+Jumanpp =Juman()
 import codecs
 
 

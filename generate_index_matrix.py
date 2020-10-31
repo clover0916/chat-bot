@@ -26,25 +26,7 @@ def generate_mat() :
     #単語の出現数をカウント
     for j in range (0,len(mat)):
         cnt[word_indices[mat[j]]] += 1
-
-    #出現頻度の少ない単語を「UNK」で置き換え
-    words_unk = []                                #未知語一覧
-
-    for k in range(0,len(words)):
-        if cnt[k] <= 10 :
-            words_unk.append(words[k])
-            words[k] = 'UNK'
-
-    print('words_unk:',len(words_unk))                   # words_unkはunkに変換された単語のリスト
-
-    #低頻度単語をUNKに置き換えたので、辞書作り直し
-    words = list(set(words))
-    words.append('\t')                                   #０パディング対策。インデックス０用キャラクタを追加
-    words = sorted(words)
-    print('new total words:', len(words))
-    word_indices = dict((w, i) for i, w in enumerate(words))    #単語をキーにインデックス検索
-    indices_word = dict((i, w) for i, w in enumerate(words))    #インデックスをキーに単語を検索
-
+        
     #単語インデックス配列作成
     mat_urtext = np.zeros((len(mat),1),dtype=int)
     for i in range(0,len(mat)):

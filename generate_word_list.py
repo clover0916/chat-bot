@@ -6,7 +6,7 @@
 #                                                                                 *
 #**********************************************************************************
 def genarate_npy(source_csv ,list_corpus) :
-    with open(source_csv, 'r') as f :
+    with open(source_csv, encoding="utf8", errors='ignore') as f :
 
         df2 = csv.reader(f,delimiter=' ')
 

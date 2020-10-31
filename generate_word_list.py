@@ -6,7 +6,7 @@
 #                                                                                 *
 #**********************************************************************************
 def genarate_npy(source_csv ,list_corpus) :
-    with codecs.open(source_csv, 'rU', 'utf-8','ignore') as f :
+    with open(source_csv, 'r') as f :
 
         df2 = csv.reader(f,delimiter=' ')
 
@@ -45,7 +45,6 @@ if __name__ == '__main__':
     import glob
     import re
     import pickle
-    import codecs
 
     file_list = glob.glob('juman/*')
     print(len(file_list))

@@ -8,6 +8,18 @@ import pickle
 #   単語補正                                                                   *
 #                                                                              *
 #*******************************************************************************
+def modification(word) :
+    if word == 'RES' and word == ':' :
+        modified = ['RESRES', word[4:]]
+    elif word == 'REQ' and word == ':' :
+        modified = ['REQREQ', word[4:]]
+    elif word[0] == '@' :
+        modified = []
+    elif word == 'EOS' :
+        modified = []
+    else :
+        modified = [word]
+    return modified
 
 #*******************************************************************************
 #                                                                              *
@@ -29,7 +41,7 @@ def decomposition(file, jumanpp) :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            parts += mrph.midasi
+            parts += modification(mrph.midasi)
         if i % 5000 == 0 :
             print(i)
     return parts

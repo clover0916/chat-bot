@@ -17,14 +17,13 @@ import pickle
 def decomposition(file, jumanpp) :
     f=open(file, 'r')
     df1 = csv.reader(f)
-    data = [ v for v in df1]
     print('number of rows :', len(data))
 
     parts = []
-    for i in range(len(data)) :
-        if len(data[i][0].encode('utf-8')) <= 4096 :
-            word = data[i][0].replace(' ', '　')
-            result = jumanpp.analysis(word)
+    for i in range(len(df1)) :
+        if len(df1.encode('utf-8')) <= 4096 :
+            word = df1.replace(' ', '　')
+            result = jumanpp.analysis(df1)
         else :
             print(i, ' skip')
             continue

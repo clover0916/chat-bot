@@ -30,7 +30,8 @@ from keras import backend as K
 from keras.utils import np_utils
 from keras.utils import plot_model
 
-from pyknp import Jumanpp
+from pyknp import Juman
+jumanpp = Juman()
 import codecs
 
 #単語ファイルロード

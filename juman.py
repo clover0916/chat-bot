@@ -38,13 +38,11 @@ def decomposition(file, jumanpp) :
         word = data[i][0].replace(" ", "")
         if len(word.encode('utf-8')) <= 4096 :
             datas = data[i][0].replace(' ', '　')
-            print(datas)
             result = jumanpp.analysis(datas)
         else :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
-            print(modification(mrph.midasi))
             parts += modification(mrph.midasi)
             
         if i % 10 == 0 :

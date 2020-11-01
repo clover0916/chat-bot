@@ -45,7 +45,6 @@ def decomposition(file, jumanpp) :
         for mrph in result.mrph_list():
           if modification(mrph.midasi):
             parts += modification(mrph.midasi)
-            print(modification(mrph.midasi))
         if i % 10 == 0 :
             print(i)
     return parts

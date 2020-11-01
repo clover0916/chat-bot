@@ -22,13 +22,8 @@ import pickle
 import gc
 import os
 
-import discord
-import json
-client = discord.Client()
-
 from keras.utils import plot_model
-from pyknp import Juman
-Jumanpp =Juman()
+from pyknp import Jumanpp
 import codecs
 
 
@@ -94,7 +89,7 @@ def initialize_models(emb_param ,maxlen_e, maxlen_d ,vec_dim, input_dim,output_d
 
 def encode_request(cns_input, maxlen_e, word_indices, words, encoder_model) :
     # Use Juman++ in subprocess mode
-    jumanpp = Juman()
+    jumanpp = Jumanpp()
     result = jumanpp.analysis(cns_input)
     input_text=[]
     for mrph in result.mrph_list():
@@ -189,20 +184,22 @@ if __name__ == '__main__':
     sys.stdin = codecs.getreader('utf_8')(sys.stdin)
 
 
-    json_open = open('./config.json', 'r')
-    config = json.load(json_open)
 
-    @client.event
-    async def on_ready():
-      print('We have logged in as {0.user}'.format(client))
+    while True:
+        cns_input = input(">> ")
+        if cns_input == "q":
+            print("終了")
+            break
 
-    @client.event
-    async def on_message(message):
-      if not message.content.startswith(config['prefix']) and message.author == client.user:
-        return
-      if message.channel.name == 'clover-chat':
-        e_input = encode_request(message.content, maxlen_e, word_indices, words, encoder_model)
-        decoded_sentence = generate_response(e_input, n_hidden, maxlen_d, output_dim, word_indices, freq_indices, indices_word, encoder_model, decoder_model)
-        await message.channel.send(decoded_sentence)
-        
-    client.run(config['token'], reconnect=True)
+        #--------------------------------------------------------------*
+        # 入力文の品詞分解とインデックス化                             *
+        #--------------------------------------------------------------*
+        e_input = encode_request(cns_input, maxlen_e, word_indices, words, encoder_model)
+
+        #--------------------------------------------------------------*
+        # 応答文組み立て                                               *
+        #--------------------------------------------------------------*       
+        decoded_sentence = generate_response(e_input, n_hidden, maxlen_d, output_dim, word_indices, 
+                                             freq_indices, indices_word, encoder_model, decoder_model)
+
+        print(decoded_sentence)

@@ -15,9 +15,9 @@ def modification(word) :
       else:
           modified = ['REQREQ']
     elif word == 'Q' :
-        modified = ['UNK']
+        return
     elif word == ':' :
-        modified = ['UNK']
+        return
     else :
         modified = [word]
     return modified
@@ -43,8 +43,9 @@ def decomposition(file, jumanpp) :
             print(i, ' skip')
             continue
         for mrph in result.mrph_list():
+          if modification(mrph.midasi):
             parts += modification(mrph.midasi)
-            
+            print(modification(mrph.midasi))
         if i % 10 == 0 :
             print(i)
     return parts

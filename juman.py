@@ -55,7 +55,7 @@ def decomposition(file, jumanpp) :
 #*******************************************************************************
 from pyknp import Juman
 jumanpp = Juman()
-file_list=glob.glob('corpus/*')
+file_list=glob.glob('predata/tweet/*')
 file_list.sort()
 print(len(file_list))
 
@@ -64,5 +64,5 @@ for j in range(len(file_list)) :
     print(file_list[j])
     parts_list += decomposition(file_list[j], jumanpp)
 
-with open('parts_list.pickle', 'wb') as f :    
+with open('list_corpus/parts_list.pickle', 'wb') as f :    
     pickle.dump(parts_list , f)
